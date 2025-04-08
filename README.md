@@ -1,2 +1,2 @@
-HOtel Management Sytem website
-lanhuages- HTML,CSS,JavaScript,Python
+Hotl Management Sytem website
+languages- HTML,CSS,JavaScript,Python
