@@ -1,0 +1,70 @@
+{% extends 'base.html' %}
+
+{% block title %}Manager Dashboard{% endblock %}
+
+{% block content %}
+<div class="dashboard">
+    <h2>Hotel Management Dashboard</h2>
+    
+    <div class="stats-container">
+        <div class="stat-card">
+            <h3>Total Rooms</h3>
+            <p class="stat-number">{{ total_rooms }}</p>
+        </div>
+        
+        <div class="stat-card">
+            <h3>Available Rooms</h3>
+            <p class="stat-number">{{ available_rooms }}</p>
+        </div>
+        
+        <div class="stat-card">
+            <h3>Occupied Rooms</h3>
+            <p class="stat-number">{{ occupied_rooms }}</p>
+        </div>
+        
+        <div class="stat-card">
+            <h3>Occupancy Rate</h3>
+            <p class="stat-number">{{ occupancy_percentage|floatformat:1 }}%</p>
+        </div>
+    </div>
+    
+    <div class="quick-actions">
+        <h3>Quick Actions</h3>
+        <div class="action-buttons">
+            <a href="{% url 'check_in_guest' %}" class="btn btn-primary">Check-in Guest</a>
+            <a href="{% url 'room_status' %}" class="btn btn-secondary">View Room Status</a>
+            <a href="{% url 'guest_list' %}" class="btn btn-secondary">View Guests</a>
+        </div>
+    </div>
+    
+    <div class="recent-activity">
+        <h3>Recent Check-ins</h3>
+        {% if recent_guests %}
+            <table class="data-table">
+                <thead>
+                    <tr>
+                        <th>Guest Name</th>
+                        <th>Room</th>
+                        <th>Check-in Date</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for guest in recent_guests %}
+                        <tr>
+                            <td>{{ guest.name }}</td>
+                            <td>{{ guest.room.room_number }}</td>
+                            <td>{{ guest.check_in_date|date:"M d, Y H:i" }}</td>
+                            <td>
+                                <a href="{% url 'check_out_guest' guest.id %}" class="btn btn-sm btn-danger">Check-out</a>
+                            </td>
+                        </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        {% else %}
+            <p>No recent check-ins.</p>
+        {% endif %}
+    </div>
+</div>
+{% endblock %}

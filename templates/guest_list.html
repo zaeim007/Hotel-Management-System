@@ -1,0 +1,62 @@
+{% extends 'base.html' %}
+
+{% block title %}Guest List{% endblock %}
+
+{% block content %}
+<div class="guest-list">
+    <h2>Guest List</h2>
+    
+    <div class="search-container">
+        <form method="get" class="search-form">
+            <div class="form-group">
+                {{ search_form.query }}
+            </div>
+            <button type="submit" class="btn btn-primary">Search</button>
+            {% if search_form.cleaned_data.query %}
+                <a href="{% url 'guest_list' %}" class="btn btn-secondary">Clear</a>
+            {% endif %}
+        </form>
+    </div>
+    
+    {% if guests %}
+        <table class="data-table">
+            <thead>
+                <tr>
+                    <th>Name</th>
+                    <th>Room</th>
+                    <th>Phone</th>
+                    <th>Email</th>
+                    <th>Check-in Date</th>
+                    <th>Status</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for guest in guests %}
+                    <tr {% if guest.check_out_date %}class="checked-out"{% endif %}>
+                        <td>{{ guest.name }}</td>
+                        <td>{{ guest.room.room_number }}</td>
+                        <td>{{ guest.phone }}</td>
+                        <td>{{ guest.email }}</td>
+                        <td>{{ guest.check_in_date|date:"M d, Y H:i" }}</td>
+                        <td>
+                            {% if guest.check_out_date %}
+                                Checked Out ({{ guest.check_out_date|date:"M d, Y H:i" }})
+                            {% else %}
+                                Currently Staying
+                            {% endif %}
+                        </td>
+                        <td>
+                            {% if not guest.check_out_date %}
+                                <a href="{% url 'check_out_guest' guest.id %}" class="btn btn-sm btn-danger">Check-out</a>
+                            {% endif %}
+                        </td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    {% else %}
+        <p>No guests found.</p>
+    {% endif %}
+</div>
+{% endblock %}

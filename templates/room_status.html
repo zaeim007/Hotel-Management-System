@@ -1,0 +1,45 @@
+{% extends 'base.html' %}
+
+{% block title %}Room Status{% endblock %}
+
+{% block content %}
+<div class="room-status">
+    <h2>Room Status</h2>
+    
+    <div class="room-action">
+        <a href="{% url 'check_in_guest' %}" class="btn btn-primary">Check-in New Guest</a>
+    </div>
+    
+    <div class="room-grid">
+        {% for room in rooms %}
+            <div class="room-card {% if room.is_occupied %}occupied{% else %}available{% endif %}">
+                <h3>Room {{ room.room_number }}</h3>
+                <div class="room-status-indicator">
+                    {% if room.is_occupied %}
+                        <span class="status occupied">Occupied</span>
+                    {% else %}
+                        <span class="status available">Available</span>
+                    {% endif %}
+                </div>
+                
+                {% if room.is_occupied %}
+                    {% with current_guest=room.guests.filter.first %}
+                        {% if current_guest %}
+                            <div class="room-details">
+                                <p><strong>Guest:</strong> {{ current_guest.name }}</p>
+                                <p><strong>Check-in:</strong> {{ room.check_in_time|date:"M d, Y H:i" }}</p>
+                                <a href="{% url 'check_out_guest' current_guest.id %}" class="btn btn-sm btn-danger">Check-out</a>
+                            </div>
+                        {% endif %}
+                    {% endwith %}
+                {% else %}
+                    <div class="room-details">
+                        <p>Ready for check-in</p>
+                        <a href="{% url 'check_in_guest' %}" class="btn btn-sm btn-primary">Assign Guest</a>
+                    </div>
+                {% endif %}
+            </div>
+        {% endfor %}
+    </div>
+</div>
+{% endblock %}

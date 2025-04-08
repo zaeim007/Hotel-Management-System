@@ -1,0 +1,34 @@
+{% extends 'base.html' %}
+
+{% block title %}Manager Login{% endblock %}
+
+{% block content %}
+<div class="auth-container">
+    <h2>Manager Login</h2>
+    
+    <form method="post" class="auth-form">
+        {% csrf_token %}
+        <div class="form-group">
+            <label for="id_username">Username:</label>
+            <input type="text" name="username" id="id_username" required class="form-control">
+        </div>
+        
+        <div class="form-group">
+            <label for="id_password">Password:</label>
+            <input type="password" name="password" id="id_password" required class="form-control">
+        </div>
+        
+        {% if form.errors %}
+            <div class="form-errors">
+                <p>Your username and password didn't match. Please try again.</p>
+            </div>
+        {% endif %}
+        
+        <button type="submit" class="btn btn-primary">Login</button>
+    </form>
+    
+    <div class="auth-info">
+        <p>Access to the hotel management system is restricted to authorized personnel only.</p>
+    </div>
+</div>
+{% endblock %}

@@ -1,0 +1,40 @@
+{% extends 'base.html' %}
+
+{% block title %}Welcome to Luxury Hotel{% endblock %}
+
+{% block content %}
+<section class="hero">
+    <div class="hero-content">
+        <h2>Welcome to Luxury Hotel</h2>
+        <p>Experience luxury and comfort like never before</p>
+    </div>
+</section>
+
+<section class="hotel-description">
+    <h2>About Our Hotel</h2>
+    <p>Luxury Hotel is a premier destination for travelers seeking comfort, elegance, and exceptional service. 
+       Located in the heart of the city, our hotel offers easy access to major attractions, shopping centers, and business districts.</p>
+    
+    <div class="features">
+        <div class="feature">
+            <h3>Luxurious Rooms</h3>
+            <p>Our rooms are designed with your comfort in mind, featuring premium bedding, modern amenities, and stunning views.</p>
+        </div>
+        
+        <div class="feature">
+            <h3>Fine Dining</h3>
+            <p>Enjoy exquisite culinary creations at our in-house restaurant, prepared by award-winning chefs.</p>
+        </div>
+        
+        <div class="feature">
+            <h3>Premium Facilities</h3>
+            <p>Take advantage of our swimming pool, fitness center, spa, and business center during your stay.</p>
+        </div>
+    </div>
+    {% if not user.is_authenticated %}
+        <div class="cta-container">
+            <a href="{% url 'login' %}" class="cta-button">Manager Login</a>
+        </div>
+    {% endif %}
+</section>
+{% endblock %}
